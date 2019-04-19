@@ -8,9 +8,14 @@ const ForecastSummary = props => (
         {props.date}
       </span>
     </div>
+    <div className="icon">
+      <span>
+        {props.icon}
+      </span>
+    </div>
     <div className="temperature">
       <span>
-        {props.temperature}
+        {props.temperature}&deg;C
       </span>
     </div>
     <div className="description">
@@ -18,17 +23,12 @@ const ForecastSummary = props => (
         {props.description}
       </span>
     </div>
-    <div className="icon">
-      <span>
-        {props.icon}
-      </span>
-    </div>
   </div>
 );
 
 ForecastSummary.propTypes = {
   forecast: PropTypes.shape({
-    date: PropTypes.number.isRequired,
+    date: PropTypes.string.isRequired,
     temperature: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     icon: PropTypes.object.isRequired,
