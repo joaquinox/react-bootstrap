@@ -1,0 +1,17 @@
+.forecast {
+  margin: 0 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(to bottom right, rgb(106, 178, 238), rgb(174, 235, 250))
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  text-decoration-line: underline;
+} 
+
+.button:active,
+:focus {
+  outline-style: none;
+  border: none;
+}

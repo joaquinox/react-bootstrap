@@ -24,7 +24,7 @@ describe('Forecast Summary', () => {
         icon="mockIcon"
       />
     ));
-    expect(wrapper.find('.temperature').text()).toEqual('mockTemperature');
+    expect(wrapper.find('.temperature').text()).toEqual('mockTemperature°C');
   });
 
   it('renders the description', () => {
@@ -48,6 +48,6 @@ describe('Forecast Summary', () => {
         icon="mockIcon"
       />
     ));
-    expect(wrapper.find('.icon').text()).toEqual('mockIcon');
+    expect(wrapper.find('.icon').text()).toEqual('<WeatherIcon />');
   });
 });
