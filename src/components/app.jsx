@@ -1,17 +1,24 @@
 import React from 'react';
+import Axios from 'axios';
 import LocationDetails from './location-details';
 import ForecastSummaries from './forecast-summaries';
 import ForecastDetails from './forecast-details';
+import SearchForm from './search-form';
 import '../styles/app.scss';
-import PropTypes from 'prop-types';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      selectedDate: this.props.forecasts[0].date,
+      selectedDate: 0,
+      forecasts: [],
+      location: {
+        city: '',
+        country: '',
+      },
     };
     this.handleForecastSelect = this.handleForecastSelect.bind(this);
+    this.handleSearchForm = this.handleSearchForm.bind(this);
   }
 
   handleForecastSelect(date) {
@@ -20,33 +27,51 @@ class App extends React.Component {
     });
   }
 
+  handleSearchForm(city) {
+    Axios.get(`https://mcr-codes-weather.herokuapp.com/forecast?city=${city}`)
+      .then(response => {
+        this.setState({
+          forecasts: response.data.forecasts,
+          location: response.data.location,
+          selectedDate: response.data.forecasts[0].date,
+        });
+      });
+  }
+
+  componentDidMount() {
+    Axios.get('https://mcr-codes-weather.herokuapp.com/forecast')
+      .then(response => {
+        this.setState({
+          forecasts: response.data.forecasts,
+          location: response.data.location,
+          selectedDate: response.data.forecasts[0].date,
+        });
+      });
+  }
+
   render() {
-    const selectedForecast =
-    this.props.forecasts.find(forecast => forecast.date === this.state.selectedDate);
+    const selectedForecast = (
+      this.state.forecasts.find(forecast => forecast.date === this.state.selectedDate)
+    );
     return (
       <div className="forecast">
         <LocationDetails
-          city={this.props.location.city}
-          country={this.props.location.country}
+          city={this.state.location.city}
+          country={this.state.location.country}
+        />
+        <SearchForm
+          handleSearchForm={this.handleSearchForm}
         />
         <ForecastSummaries
-          forecasts={this.props.forecasts}
+          forecasts={this.state.forecasts}
           onForecastSelect={this.handleForecastSelect}
         />
-        <ForecastDetails
-          forecast={selectedForecast}
-        />
+        {
+          selectedForecast && <ForecastDetails forecast={selectedForecast} />
+        }
       </div>
     );
   }
 }
-
-App.propTypes = {
-  location: PropTypes.shape({
-    city: PropTypes.string,
-    country: PropTypes.string,
-  }).isRequired,
-  forecasts: PropTypes.array.isRequired,
-};
 
 export default App;
