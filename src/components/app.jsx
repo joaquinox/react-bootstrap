@@ -15,6 +15,7 @@ class App extends React.Component {
       location: {
         city: '',
         country: '',
+        error: '',
       },
     };
     this.handleForecastSelect = this.handleForecastSelect.bind(this);
@@ -37,7 +38,7 @@ class App extends React.Component {
         });
       })
       .catch(() => {
-        alert('Cannot find city. Please try again.');
+        // alert("Sorry, that's not quite right. Please try again.");
       });
   }
 
